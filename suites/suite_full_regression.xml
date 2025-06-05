@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite parallel="tests" thread-count="2" name="full_regression_suite">
+
+    <listeners>
+        <listener class-name="org.comcast.crm.listners.Listeners" />
+    </listeners>
+    <test verbose="2"
+          name="Test-Runner__FIREFOX">
+          <parameter name="browser" value="firefox"/>
+        <classes>
+            <class name="org.comcast.crm.contactTests.ContactTests"/>
+            <class name="org.comcast.crm.orgTests.OrgTests"/>
+        </classes>
+    </test>
+
+    <test verbose="2"
+          name="Test-Runner__CHROME">
+          <parameter name="browser" value="chrome"/>
+        <classes>
+            <class name="org.comcast.crm.contactTests.ContactTests"/>
+            <class name="org.comcast.crm.orgTests.OrgTests"/>
+        </classes>
+    </test>
+</suite>

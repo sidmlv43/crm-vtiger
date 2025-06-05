@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="full_regression_suite">
+    <groups>
+        <run>
+            <include name="smokeTest"/>
+        </run>
+    </groups>
+    <test verbose="2" preserve-order="true"
+          name="C:/Users/sidml/IdeaProjects/crm/src/test/java/org/comcast/crm/contactTests/ContactTests.java">
+        <classes>
+            <class name="org.comcast.crm.contactTests.ContactTests"/>
+            <class name="org.comcast.crm.orgTests.OrgTests"/>
+        </classes>
+    </test>
+</suite>
