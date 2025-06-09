@@ -100,7 +100,7 @@
     </profile>
 
     <profile>
-      <id>regression</id>
+      <id>Regression</id>
       <build>
         <plugins>
           <plugin>
@@ -123,7 +123,7 @@
     </profile>
 
     <profile>
-      <id>regional_regression</id>
+      <id>Regional_regression</id>
       <build>
         <plugins>
           <plugin>

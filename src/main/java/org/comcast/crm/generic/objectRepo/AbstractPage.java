@@ -80,6 +80,7 @@ public class AbstractPage {
             System.out.println("inside signout catch block");
             JavascriptExecutor js = (JavascriptExecutor) driver;
             js.executeScript("arguments[0].click()", signoutButton);
+            driver.quit();
         }
 
     }
