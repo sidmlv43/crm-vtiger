@@ -69,6 +69,7 @@ public class Listeners extends BaseTest implements ITestListener, ISuiteListener
 
     @Override
     public void onStart(ITestContext context) {
+        System.out.println(context.getName());
         ITestListener.super.onStart(context);
     }
 
