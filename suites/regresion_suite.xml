@@ -13,13 +13,13 @@
     <test verbose="2" preserve-order="true"
           name="C:/Users/sidml/IdeaProjects/crm/src/test/java/org/comcast/crm/contactTests/ContactTests.java">
         <classes>
-<!--            <class name="org.comcast.crm.contactTests.ContactTests"/>-->
+            <class name="org.comcast.crm.contactTests.ContactTests"/>
 <!--            <class name="org.comcast.crm.orgTests.OrgTests"/>-->
-            <class name="org.comcast.crm.contactTests.ContactTests">
-                <methods>
-                    <include name="createContactWithOrg"/>
-                </methods>
-            </class>
+<!--            <class name="org.comcast.crm.contactTests.ContactTests">-->
+<!--                <methods>-->
+<!--                    <include name="createContactWithOrg"/>-->
+<!--                </methods>-->
+<!--            </class>-->
         </classes>
     </test>
 </suite>

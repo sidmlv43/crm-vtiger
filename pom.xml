@@ -112,7 +112,7 @@
             <configuration>
               <suiteXmlFiles>
                 <suiteXmlFile>
-                  suites/regression_suite.xml
+                  suites/regresion_suite.xml
                 </suiteXmlFile>
               </suiteXmlFiles>
             </configuration>
