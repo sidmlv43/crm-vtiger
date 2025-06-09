@@ -10,6 +10,8 @@ import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
 
+import java.io.IOException;
+
 public class OrgTests extends BaseTest {
 
     @Test(groups = "smokeTest", retryAnalyzer = RetryNG.class)
@@ -60,7 +62,7 @@ public class OrgTests extends BaseTest {
     }
 
     @DataProvider(name = "orgDataSet")
-    public Object[][] getOrgData() {
+    public Object[][] getOrgData() throws IOException {
         ExcelMiner miner = new ExcelMiner(basePath + "/src/test/resources/org_data.xlsx");
         miner.loadSheet("Test Data");
         Object[][] result = new Object[miner.getRowCount() - 1][3];
@@ -69,6 +71,7 @@ public class OrgTests extends BaseTest {
                 result[i - 1][j] = miner.getCellData(i, j);
             }
         }
+        miner.close();
         return result;
     }
 }

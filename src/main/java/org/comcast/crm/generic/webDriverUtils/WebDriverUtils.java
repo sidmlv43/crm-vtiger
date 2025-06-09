@@ -123,11 +123,6 @@ public class WebDriverUtils {
         sel.selectByVisibleText(txt);
     }
 
-    /**
-     *  Switches the webdriver context to a frame using a Web Element
-     * @param driver the Web Driver instance
-     * @param el the frame element to switch to
-     */
 
     public void switchToFrame(WebDriver driver, WebElement el) {
         driver.switchTo().frame(el);

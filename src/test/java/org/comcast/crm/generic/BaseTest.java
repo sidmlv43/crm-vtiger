@@ -18,7 +18,7 @@ public class BaseTest {
     protected WebDriver driver;
     protected static WebDriverUtils webUtils = new WebDriverUtils();
     protected PropReader prop;
-    //    protected ExcelMiner miner;
+    // protected ExcelMiner miner;
     protected static final String basePath = System.getProperty("user.dir");
     public static WebDriver sDriver;
 
@@ -26,7 +26,6 @@ public class BaseTest {
     @BeforeSuite
     public void configBS() {
         System.out.println("----Before Suite-----");
-
     }
 
     //    @Parameters({"browser"})
@@ -47,11 +46,10 @@ public class BaseTest {
     @BeforeClass(groups = {"smokeTest", "regressionTest"})
 //    public void configBC(String browser) throws IOException {
     public void configBC() throws IOException {
-        System.out.println("----Before Class----");
-//        webUtils = new WebDriverUtils();
         prop = new PropReader(basePath + "/src/main/resources/config.properties");
-//        String BROWSER = browser != null ? browser: prop.get("browser");
-        String BROWSER = prop.get("browser");
+        String URL = System.getProperty("url") == null ? prop.get("url") : System.getProperty("url");
+        String BROWSER = System.getProperty("browser") == null ? prop.get("browser") : System.getProperty("browser");
+
         driver = webUtils.getBrowser(BROWSER);
         sDriver = driver;
 //        UtilityClassObject.getTest().log(Status.INFO, "Initializing Browser ---> " + BROWSER);
@@ -60,16 +58,19 @@ public class BaseTest {
         webUtils.maximizeWindow(driver);
         webUtils.waitForPageToLoad(driver);
 //        UtilityClassObject.setDriver(driver);
-        driver.get(prop.get("url"));
-//        UtilityClassObject.getTest().log(Status.INFO, "Navigating to ---> " + prop.get("url"));
+
+        driver.get(URL);
     }
 
     @BeforeMethod(groups = {"smokeTest", "regressionTest"})
     public void configBeforeMethod() {
+        String USERNAME = System.getProperty("username") == null ? prop.get("username") : System.getProperty("username");
+        String PASSWORD = System.getProperty("password") == null ? prop.get("password") : System.getProperty("password");
 
 //        UtilityClassObject.getTest().log(Status.INFO, "Logging in ---> CRM");
         LoginPage loginPage = new LoginPage(driver);
-        loginPage.login("admin", "admin");
+
+        loginPage.login(USERNAME, PASSWORD);
     }
 
     @AfterMethod(groups = {"smokeTest", "regressionTest"})
@@ -84,7 +85,6 @@ public class BaseTest {
         UtilityClassObject.getTest().log(Status.INFO, "Quitting the browser");
         driver.quit();
     }
-
     @AfterSuite(groups = {"smokeTest", "regressionTest"})
     public void configAS() {
         System.out.println("----After Suite----");

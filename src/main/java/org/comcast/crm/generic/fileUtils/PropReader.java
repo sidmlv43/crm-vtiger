@@ -2,7 +2,10 @@ package org.comcast.crm.generic.fileUtils;
 
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Properties;
+import java.util.Set;
 
 /**
  *
@@ -36,6 +39,9 @@ public class PropReader {
      * @return the value corresponding to the key, or {@code null} if the key doesn't exist
      */
     public String get(String key) {
+        if(!containsKey(key)) {
+            throw new KeyNotPresentException(key + " is not present in property file");
+        }
         return props.getProperty(key);
     }
 
@@ -49,5 +55,34 @@ public class PropReader {
     public boolean containsKey(String key)
     {
         return props.containsKey(key);
+    }
+
+
+    /**
+     * Returns a map containing all key-value pairs from the loaded properties file.
+     * <p>
+     * Each key and its corresponding value from the {@code Properties} object is inserted
+     * into a {@code HashMap<String, String>} and returned to the caller.
+     * </p>
+     *
+     * @return a map of all key-value pairs present in the properties file
+     */
+    public Map<String, String> loadAsMap()
+    {
+        Map<String, String> res = new HashMap<>();
+        Set<String> keys = props.stringPropertyNames();
+        for (String key: keys)
+        {
+            res.put(key, props.getProperty(key));
+        }
+
+        return res;
+    }
+}
+
+
+class KeyNotPresentException extends RuntimeException {
+    KeyNotPresentException(String message) {
+        super(message);
     }
 }

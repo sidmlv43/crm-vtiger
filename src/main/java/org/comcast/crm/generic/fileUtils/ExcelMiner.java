@@ -1,15 +1,12 @@
 package org.comcast.crm.generic.fileUtils;
 
+import java.io.Closeable;
 import java.io.FileInputStream;
-import java.sql.Array;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import java.io.FileOutputStream;
+import java.io.IOException;
 
-import org.apache.poi.ss.usermodel.Row;
-import org.apache.poi.ss.usermodel.Sheet;
-import org.apache.poi.ss.usermodel.Workbook;
-import org.apache.poi.ss.usermodel.WorkbookFactory;
+
+import org.apache.poi.ss.usermodel.*;
 
 /**
  * Utility class for reading data from Excel files using Apache POI.
@@ -30,23 +27,23 @@ import org.apache.poi.ss.usermodel.WorkbookFactory;
  * @version 1.0
  */
 
-public class ExcelMiner {
-    private Workbook workbook;
+public class ExcelMiner implements Closeable {
+    private final Workbook workbook;
     private Sheet sheet;
+    private final String path;
 
     /**
      * Constructs an ExcelMiner object and loads the Excel workbook from the given file path.
      *
      * @param path the full path to the Excel (.xlsx or .xls) file
      */
-    public ExcelMiner(String path) {
-        FileInputStream fis = null;
+    public ExcelMiner(String path) throws IOException {
+        this.path = path;
 
-        try {
-            fis = new FileInputStream(path);
+        try (FileInputStream fis = new FileInputStream(path)) {
             workbook = WorkbookFactory.create(fis);
         } catch (Exception e) {
-            e.printStackTrace();
+            throw new RuntimeException(e.getMessage());
         }
     }
 
@@ -54,8 +51,15 @@ public class ExcelMiner {
      * Loads a specific sheet from the Excel workbook by its name.
      *
      * @param sheetName the name of the sheet to load
+     * @throws SheetNotAvailableException if {@code sheetName} does not exist.
      */
     public void loadSheet(String sheetName) {
+        sheetName = sheetName.trim();
+        int index = workbook.getSheetIndex(sheetName);
+        if (index == -1)
+        {
+            throw new SheetNotAvailableException(sheetName + " is not present in workbook.");
+        }
         sheet = workbook.getSheet(sheetName);
     }
 
@@ -94,5 +98,69 @@ public class ExcelMiner {
         return this.workbook.getSheet(sheetName).getLastRowNum();
     }
 
+    /**
+     *
+     * @param row the row number in which you wish to write the data
+     * @param col the column number in which you wish to write the data
+     * @param data the data you want to insert into the cell
+     * @throws IOException if the file doesn't exist
+     */
 
+    public void insertData(int row, int col, String data) throws IOException {
+        insertData(this.sheet.getSheetName(), row, col, data);
+    }
+
+
+    /**
+     *
+     * @param sheetName name of the sheet in which you want to insert data
+     * @param row the row number in which you wish to write the data
+     * @param col the column number in which you wish to write the data
+     * @param data the data you want to insert into the cell
+     * @throws IOException if the file doesn't exist
+     */
+    public void insertData(String sheetName, int row, int col, String data) throws IOException {
+        Sheet sheet = workbook.getSheet(sheetName);
+        Row r = sheet.getRow(row);
+        if (r == null) {
+            r = sheet.createRow(row);
+        }
+        Cell c = r.getCell(col);
+        if(c == null) {
+            c = r.createCell(col);
+        }
+        c.setCellValue(data);
+        try (FileOutputStream fos = new FileOutputStream(path)) {
+            workbook.write(fos);
+        }
+    }
+
+    @Override
+    public void close() throws IOException {
+        workbook.close();
+    }
+}
+
+
+/**
+ * Exception thrown when a requested sheet is not found in the Excel workbook.
+ * <p>
+ * This exception is typically used in scenarios where an attempt is made to load or access
+ * a sheet by name, but the sheet does not exist in the workbook. It extends {@link RuntimeException},
+ * so it is unchecked and does not require mandatory handling.
+ * </p>
+ *
+ * <p><b>Example usage:</b></p>
+ * <pre>{@code
+ * ExcelMiner excel = new ExcelMiner("data.xlsx");
+ * excel.loadSheet("NonExistentSheet"); // throws SheetNotAvailableException
+ * }</pre>
+ *
+ * @author Siddharth Malviya
+ * @since 1.0
+ */
+class SheetNotAvailableException extends RuntimeException {
+    public SheetNotAvailableException(String message) {
+        super(message);
+    }
 }

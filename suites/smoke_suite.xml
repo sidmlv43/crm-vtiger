@@ -6,6 +6,9 @@
             <include name="smokeTest"/>
         </run>
     </groups>
+    <listeners>
+        <listener class-name="org.comcast.crm.listners.Listeners" />
+    </listeners>
     <test verbose="2" preserve-order="true"
           name="C:/Users/sidml/IdeaProjects/crm/src/test/java/org/comcast/crm/contactTests/ContactTests.java">
         <classes>

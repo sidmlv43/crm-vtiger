@@ -24,6 +24,7 @@ public class AbstractPage {
     protected PropReader propReader;
     protected DataBaseUtil dbUtil;
 
+
     @FindBy(linkText = "Organizations")
     private WebElement organizations;
 
@@ -67,6 +68,9 @@ public class AbstractPage {
     }
 
 
+    /**
+     * will sign out from the application
+     */
     public void signout() {
         try {
             webUtils.moveMouseOnElement(driver, userIconImage);
@@ -81,6 +85,10 @@ public class AbstractPage {
     }
 
 
+    /**
+     * will redirect to the organizations page
+     * @return instance of Java implementation of {@code OrgPage}
+     */
     public OrgPage gotoOrgPage() {
         organizations.click();
         return new OrgPage(driver);

@@ -1,15 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
 <suite name="full_regression_suite">
-<!--    <groups>-->
-<!--        <run>-->
-<!--            <include name="regressionTest"/>-->
-<!--        </run>-->
-<!--    </groups>-->
+    <groups>
+        <run>
+            <include name="regressionTest"/>
+        </run>
+    </groups>
 
     <listeners>
         <listener class-name="org.comcast.crm.listners.Listeners" />
-<!--        <listener class-name="org.comcast.crm.listners.Retry" />-->
     </listeners>
     <test verbose="2" preserve-order="true"
           name="C:/Users/sidml/IdeaProjects/crm/src/test/java/org/comcast/crm/contactTests/ContactTests.java">
