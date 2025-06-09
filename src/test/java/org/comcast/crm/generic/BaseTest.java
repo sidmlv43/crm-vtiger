@@ -76,7 +76,7 @@ public class BaseTest {
     @AfterMethod(groups = {"smokeTest", "regressionTest"})
     public void configAfterMethod() {
         AbstractPage abs = new AbstractPage(driver);
-        UtilityClassObject.getTest().log(Status.INFO, "Logging out ---> CRM");
+//        UtilityClassObject.getTest().log(Status.INFO, "Logging out ---> CRM");
         abs.signout();
     }
 
